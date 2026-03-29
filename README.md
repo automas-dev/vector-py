@@ -1,4 +1,4 @@
-# vectory-py
+# vector-py
 
 An updated implementation of https://www.pygame.org/wiki/2DVectorClass
 
