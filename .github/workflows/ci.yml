@@ -38,3 +38,20 @@ jobs:
       - name: Test
         # TODO remove this arg so pyproject.toml setting of 100% is respected
         run: uv run pytest tests --cov-fail-under=10
+
+  increment_tag:
+    name: Increment Version Tag
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && !contains(github.event.head_commit.message, 'NO RELEASE')
+
+    needs: lint_test
+
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Increment Version
+        uses: automas-dev/reusable-workflows/increment_version@main
+        id: version
