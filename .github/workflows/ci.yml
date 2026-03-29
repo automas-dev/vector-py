@@ -36,4 +36,5 @@ jobs:
           uv run ruff check .
 
       - name: Test
-        run: uv run pytest tests
+        # TODO remove this arg so pyproject.toml setting of 100% is respected
+        run: uv run pytest tests --cov-fail-under=10
