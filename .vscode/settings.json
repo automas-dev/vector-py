@@ -1,0 +1,8 @@
+{
+    "python.testing.pytestArgs": [
+        // Including --cov=src here because test explorer ignores pyprojec.toml
+        "--cov=src tests"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true
+}
