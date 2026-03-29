@@ -1,7 +1,5 @@
 """
 An updated implementation of pygame 3d vector class.
-
-See http://www.pygame.org/wiki/3DVectorClass
 """
 
 import math
@@ -14,7 +12,7 @@ class Vec3:
     and also provides a bunch of high level functions.
     reproduced from the vec3d class on the pygame wiki site.
 
-    See http://www.pygame.org/wiki/3DVectorClass
+    See https://www.pygame.org/wiki/3DVectorClass
     """
 
     __slots__ = ['x', 'y', 'z']

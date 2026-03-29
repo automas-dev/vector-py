@@ -1,7 +1,5 @@
 """
 An updated implementation of pygame 2d vector class.
-
-See http://www.pygame.org/wiki/2DVectorClass
 """
 
 import math
@@ -13,7 +11,7 @@ class Vec2:
     """2d vector class, supports vector and scalar operators,
     and also provides a bunch of high level functions
 
-    See http://www.pygame.org/wiki/2DVectorClass
+    See https://www.pygame.org/wiki/2DVectorClass
     """
 
     __slots__ = ['x', 'y']
