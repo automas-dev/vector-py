@@ -293,7 +293,7 @@ class Vec2:
         """
         if self.x == 0 and self.y == 0:
             return 0
-        return math.degrees(math.atan2(self.y, self.x))
+        return math.atan2(self.y, self.x)
 
     def get_angle_deg(self) -> float:
         """Return the angle of the vector in degrees.
@@ -303,8 +303,6 @@ class Vec2:
         Returns:
             float: The angle in degrees. Returns 0 for zero-length vectors.
         """
-        if self.x == 0 and self.y == 0:
-            return 0
         return math.degrees(self.get_angle())
 
     def set_angle(self, radians: float):
