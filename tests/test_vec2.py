@@ -365,3 +365,7 @@ def test_vec2_set_length():
     assert v.get_length() == 10
     assert v.x == 6
     assert v.y == 8
+
+    v = Vec2(0)
+    v.set_length(1)
+    assert v.get_length() == 0

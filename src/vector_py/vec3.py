@@ -216,18 +216,45 @@ class Vec3:
 
     # vector functions
     def get_length_sqrd(self) -> float:
+        """Return the squared length of the vector.
+
+        This is more efficient than get_length() when you only need to compare lengths,
+        as it avoids the square root operation.
+
+        Returns:
+            float: The squared length (x^2 + y^2 + z^2).
+        """
         return self.x**2 + self.y**2 + self.z**2
 
     def get_length(self) -> float:
+        """Return the length (magnitude) of the vector.
+
+        Returns:
+            float: The Euclidean length of the vector (sqrt(x^2 + y^2 + z^2)).
+        """
         return math.sqrt(self.x**2 + self.y**2 + self.z**2)
 
     def set_length(self, value: float):
+        """Set the length of the vector to the given value, preserving direction.
+
+        If the vector is zero-length, this method does nothing.
+
+        Args:
+            value (float): The new length for the vector.
+        """
+        if self.x == 0 and self.y == 0 and self.z == 0:
+            return
         length = self.get_length()
         self.x *= value / length
         self.y *= value / length
         self.z *= value / length
 
     def rotate_around_x(self, radians: float):
+        """Rotate the vector in-place around the x-axis by the given angle in radians.
+
+        Args:
+            radians (float): The angle to rotate by, in radians.
+        """
         cos = math.cos(radians)
         sin = math.sin(radians)
         y = self.y * cos - self.z * sin
@@ -236,9 +263,19 @@ class Vec3:
         self.z = z
 
     def rotate_around_x_deg(self, degrees: float):
+        """Rotate the vector in-place around the x-axis by the given angle in degrees.
+
+        Args:
+            degrees (float): The angle to rotate by, in degrees.
+        """
         self.rotate_around_x(math.radians(degrees))
 
     def rotate_around_y(self, radians: float):
+        """Rotate the vector in-place around the y-axis by the given angle in radians.
+
+        Args:
+            radians (float): The angle to rotate by, in radians.
+        """
         cos = math.cos(radians)
         sin = math.sin(radians)
         z = self.z * cos - self.x * sin
@@ -247,9 +284,19 @@ class Vec3:
         self.x = x
 
     def rotate_around_y_deg(self, degrees: float):
+        """Rotate the vector in-place around the y-axis by the given angle in degrees.
+
+        Args:
+            degrees (float): The angle to rotate by, in degrees.
+        """
         self.rotate_around_y(math.radians(degrees))
 
     def rotate_around_z(self, radians: float):
+        """Rotate the vector in-place around the z-axis by the given angle in radians.
+
+        Args:
+            radians (float): The angle to rotate by, in radians.
+        """
         cos = math.cos(radians)
         sin = math.sin(radians)
         x = self.x * cos - self.y * sin
@@ -258,9 +305,22 @@ class Vec3:
         self.y = y
 
     def rotate_around_z_deg(self, degrees: float):
+        """Rotate the vector in-place around the z-axis by the given angle in degrees.
+
+        Args:
+            degrees (float): The angle to rotate by, in degrees.
+        """
         self.rotate_around_z(math.radians(degrees))
 
     def rotated_around_x(self, radians: float) -> 'Vec3':
+        """Return a new vector rotated around the x-axis by the given angle in radians.
+
+        Args:
+            radians (float): The angle to rotate by, in radians.
+
+        Returns:
+            Vec3: A new vector rotated around the x-axis.
+        """
         cos = math.cos(radians)
         sin = math.sin(radians)
         y = self.y * cos - self.z * sin
@@ -268,9 +328,25 @@ class Vec3:
         return Vec3(self.x, y, z)
 
     def rotated_around_x_deg(self, degrees: float) -> 'Vec3':
+        """Return a new vector rotated around the x-axis by the given angle in degrees.
+
+        Args:
+            degrees (float): The angle to rotate by, in degrees.
+
+        Returns:
+            Vec3: A new vector rotated around the x-axis.
+        """
         return self.rotated_around_x(math.radians(degrees))
 
     def rotated_around_y(self, radians: float) -> 'Vec3':
+        """Return a new vector rotated around the y-axis by the given angle in radians.
+
+        Args:
+            radians (float): The angle to rotate by, in radians.
+
+        Returns:
+            Vec3: A new vector rotated around the y-axis.
+        """
         cos = math.cos(radians)
         sin = math.sin(radians)
         z = self.z * cos - self.x * sin
@@ -278,9 +354,25 @@ class Vec3:
         return Vec3(x, self.y, z)
 
     def rotated_around_y_deg(self, degrees: float) -> 'Vec3':
+        """Return a new vector rotated around the y-axis by the given angle in degrees.
+
+        Args:
+            degrees (float): The angle to rotate by, in degrees.
+
+        Returns:
+            Vec3: A new vector rotated around the y-axis.
+        """
         return self.rotated_around_y(math.radians(degrees))
 
     def rotated_around_z(self, radians: float) -> 'Vec3':
+        """Return a new vector rotated around the z-axis by the given angle in radians.
+
+        Args:
+            radians (float): The angle to rotate by, in radians.
+
+        Returns:
+            Vec3: A new vector rotated around the z-axis.
+        """
         cos = math.cos(radians)
         sin = math.sin(radians)
         x = self.x * cos - self.y * sin
@@ -288,82 +380,187 @@ class Vec3:
         return Vec3(x, y, self.z)
 
     def rotated_around_z_deg(self, degrees: float) -> 'Vec3':
+        """Return a new vector rotated around the z-axis by the given angle in degrees.
+
+        Args:
+            degrees (float): The angle to rotate by, in degrees.
+
+        Returns:
+            Vec3: A new vector rotated around the z-axis.
+        """
         return self.rotated_around_z(math.radians(degrees))
 
     def get_angle_around_x(self) -> float:
-        if self.get_length_sqrd() == 0:
+        """Return the angle of the vector's projection in the yz-plane in radians.
+
+        Returns:
+            float: The angle in radians. Returns 0 for zero-length vectors.
+        """
+        if self.x == 0 and self.y == 0 and self.z == 0:
             return 0
         return math.atan2(self.z, self.y)
 
     def get_angle_around_x_deg(self) -> float:
+        """Return the angle of the vector's projection in the yz-plane in degrees.
+
+        Returns:
+            float: The angle in degrees. Returns 0 for zero-length vectors.
+        """
         return math.degrees(self.get_angle_around_x())
 
     def set_angle_around_x(self, radians: float):
+        """Set the angle of the vector's projection in the yz-plane in radians, preserving length.
+
+        Args:
+            radians (float): The new angle in radians.
+        """
         self.y = math.sqrt(self.y**2 + self.z**2)
         self.z = 0
         self.rotate_around_x(radians)
 
     def set_angle_around_x_deg(self, degrees: float):
+        """Set the angle of the vector's projection in the yz-plane in degrees, preserving length.
+
+        Args:
+            degrees (float): The new angle in degrees.
+        """
         self.set_angle_around_x(math.radians(degrees))
 
     def get_angle_around_y(self) -> float:
-        if self.get_length_sqrd() == 0:
+        """Return the angle of the vector's projection in the xz-plane in radians.
+
+        Returns:
+            float: The angle in radians. Returns 0 for zero-length vectors.
+        """
+        if self.x == 0 and self.y == 0 and self.z == 0:
             return 0
         return math.atan2(self.x, self.z)
 
     def get_angle_around_y_deg(self) -> float:
+        """Return the angle of the vector's projection in the xz-plane in degrees.
+
+        Returns:
+            float: The angle in degrees. Returns 0 for zero-length vectors.
+        """
         return math.degrees(self.get_angle_around_y())
 
     def set_angle_around_y(self, radians: float):
+        """Set the angle of the vector's projection in the xz-plane in radians, preserving length.
+
+        Args:
+            radians (float): The new angle in radians.
+        """
         self.z = math.sqrt(self.z**2 + self.x**2)
         self.x = 0
         self.rotate_around_y(radians)
 
     def set_angle_around_y_deg(self, degrees: float):
+        """Set the angle of the vector's projection in the xz-plane in degrees, preserving length.
+
+        Args:
+            degrees (float): The new angle in degrees.
+        """
         self.set_angle_around_y(math.radians(degrees))
 
     def get_angle_around_z(self) -> float:
+        """Return the angle of the vector's projection in the xy-plane in radians.
+
+        Returns:
+            float: The angle in radians. Returns 0 for zero-length vectors.
+        """
         if self.get_length_sqrd() == 0:
             return 0
         return math.atan2(self.y, self.x)
 
     def get_angle_around_z_deg(self) -> float:
+        """Return the angle of the vector's projection in the xy-plane in degrees.
+
+        Returns:
+            float: The angle in degrees. Returns 0 for zero-length vectors.
+        """
         return math.degrees(self.get_angle_around_z())
 
     def set_angle_around_z(self, radians: float):
+        """Set the angle of the vector's projection in the xy-plane in radians, preserving length.
+
+        Args:
+            radians (float): The new angle in radians.
+        """
         self.x = math.sqrt(self.x**2 + self.y**2)
         self.y = 0
         self.rotate_around_z(radians)
 
     def set_angle_around_z_deg(self, degrees: float):
+        """Set the angle of the vector's projection in the xy-plane in degrees, preserving length.
+
+        Args:
+            degrees (float): The new angle in degrees.
+        """
         self.set_angle_around_z(math.radians(degrees))
 
     def get_angle_between(self, other: 'Vec3') -> float:
+        """Return the angle between this vector and another vector in radians.
+
+        Args:
+            other (Vec3): Another vector.
+
+        Returns:
+            float: The angle in radians between the two vectors.
+        """
         v1 = self.normalized()
         v2 = other.normalized()
         return math.acos(v1.dot(v2))
 
     def get_angle_between_deg(self, other: 'Vec3') -> float:
+        """Return the angle between this vector and another vector in degrees.
+
+        Args:
+            other (Vec3): Another vector.
+
+        Returns:
+            float: The angle in degrees between the two vectors.
+        """
         return math.degrees(self.get_angle_between(other))
 
     def normalized(self) -> 'Vec3':
-        length = self.get_length()
-        if length != 0:
-            return self / length
-        return Vec3(self)
+        """Return a new vector with the same direction but unit length.
 
-    def normalize(self) -> float:
+        Returns:
+            Vec3: A normalized copy of the vector. Returns a copy of the zero vector if length is zero.
+        """
+        if self.x == 0 and self.y == 0 and self.z == 0:
+            return Vec3(self)
+        return self / self.get_length()
+
+    def normalize(self):
+        """Normalize the vector in-place and return its original length."""
+        if self.x == 0 and self.y == 0 and self.z == 0:
+            return
         length = self.get_length()
-        if length != 0:
-            self.x /= length
-            self.y /= length
-            self.z /= length
-        return length
+        self.x /= length
+        self.y /= length
+        self.z /= length
 
     def dot(self, other: 'Sequence[float | int] | Vec3') -> float:
+        """Return the dot product with another vector.
+
+        Args:
+            other: Another vector or sequence of three floats.
+
+        Returns:
+            float: The dot product (self.x * other.x + self.y * other.y + self.z * other.z).
+        """
         return self.x * other[0] + self.y * other[1] + self.z * other[2]
 
     def get_distance(self, other: 'Sequence[float | int] | Vec3') -> float:
+        """Return the Euclidean distance to another vector.
+
+        Args:
+            other: Another vector or sequence of three floats.
+
+        Returns:
+            float: The distance between the two vectors.
+        """
         return math.sqrt(
             (self.x - other[0]) ** 2
             + (self.y - other[1]) ** 2
@@ -371,6 +568,16 @@ class Vec3:
         )
 
     def get_dist_sqrd(self, other: 'Sequence[float | int] | Vec3') -> float:
+        """Return the squared Euclidean distance to another vector.
+
+        This is more efficient than get_distance() when you only need to compare distances.
+
+        Args:
+            other: Another vector or sequence of three floats.
+
+        Returns:
+            float: The squared distance between the two vectors.
+        """
         return (
             (self.x - other[0]) ** 2
             + (self.y - other[1]) ** 2
@@ -378,6 +585,14 @@ class Vec3:
         )
 
     def projection(self, other: 'Vec3') -> 'Vec3':
+        """Return the projection of this vector onto another vector.
+
+        Args:
+            other (Vec3): The vector to project onto.
+
+        Returns:
+            Vec3: The projection of this vector onto the other vector.
+        """
         other_length_sqrd = (
             other[0] * other[0] + other[1] * other[1] + other[2] * other[2]
         )
@@ -385,6 +600,14 @@ class Vec3:
         return other * (projected_length_times_other_length / other_length_sqrd)
 
     def cross(self, other: 'Sequence[float | int] | Vec3') -> 'Vec3':
+        """Return the cross product with another vector.
+
+        Args:
+            other: Another vector or sequence of three floats.
+
+        Returns:
+            Vec3: The cross product vector.
+        """
         return Vec3(
             self.y * other[2] - self.z * other[1],
             self.z * other[0] - self.x * other[2],
@@ -394,6 +617,15 @@ class Vec3:
     def interpolate_to(
         self, other: 'Sequence[float | int] | Vec3', range: float
     ) -> 'Vec3':
+        """Return a vector interpolated between this vector and another.
+
+        Args:
+            other: The target vector or sequence of three floats.
+            range (float): Interpolation factor (0.0 = this vector, 1.0 = other vector).
+
+        Returns:
+            Vec3: The interpolated vector.
+        """
         return Vec3(
             self.x + (other[0] - self.x) * range,
             self.y + (other[1] - self.y) * range,
@@ -403,6 +635,16 @@ class Vec3:
     def convert_to_basis(
         self, x_vector: 'Vec3', y_vector: 'Vec3', z_vector: 'Vec3'
     ) -> 'Vec3':
+        """Convert this vector to coordinates in the given basis.
+
+        Args:
+            x_vector (Vec3): The x-axis of the new basis.
+            y_vector (Vec3): The y-axis of the new basis.
+            z_vector (Vec3): The z-axis of the new basis.
+
+        Returns:
+            Vec3: The coordinates of this vector in the new basis.
+        """
         return Vec3(
             self.dot(x_vector) / x_vector.get_length_sqrd(),
             self.dot(y_vector) / y_vector.get_length_sqrd(),
