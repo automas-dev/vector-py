@@ -376,3 +376,7 @@ def test_vec3_set_length():
     assert v.x == 0
     assert v.y == 6
     assert v.z == 8
+
+    v = Vec3(0)
+    v.set_length(1)
+    assert v.get_length() == 0

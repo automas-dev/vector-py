@@ -262,26 +262,25 @@ class Vec2:
         return math.degrees(self.get_angle_between(other))
 
     def normalized(self) -> 'Vec2':
-        length = self.get_length()
-        if length != 0:
-            return self / length
-        return Vec2(self)
+        if self.x == 0 and self.y == 0:
+            return Vec2(self)
+        return self / self.get_length()
 
-    def normalize_return_length(self) -> float:
+    def normalize(self):
+        if self.x == 0 and self.y == 0:
+            return
         length = self.get_length()
-        if length != 0:
-            self.x /= length
-            self.y /= length
-        return length
+        self.x /= length
+        self.y /= length
 
     def perpendicular(self) -> 'Vec2':
         return Vec2(self.y, -self.x)
 
     def perpendicular_normal(self) -> 'Vec2':
+        if self.x == 0 and self.y == 0:
+            return Vec2(self)
         length = self.get_length()
-        if length != 0:
-            return Vec2(-self.y / length, self.x / length)
-        return Vec2(self)
+        return Vec2(-self.y / length, self.x / length)
 
     def dot(self, other: 'Sequence[float | int] | Vec2') -> float:
         return self.x * other[0] + self.y * other[1]

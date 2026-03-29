@@ -291,7 +291,7 @@ class Vec3:
         return self.rotated_around_z(math.radians(degrees))
 
     def get_angle_around_x(self) -> float:
-        if self.get_length_sqrd() == 0:
+        if self.x == 0 and self.y == 0 and self.z == 0:
             return 0
         return math.atan2(self.z, self.y)
 
@@ -307,7 +307,7 @@ class Vec3:
         self.set_angle_around_x(math.radians(degrees))
 
     def get_angle_around_y(self) -> float:
-        if self.get_length_sqrd() == 0:
+        if self.x == 0 and self.y == 0 and self.z == 0:
             return 0
         return math.atan2(self.x, self.z)
 
@@ -347,18 +347,17 @@ class Vec3:
         return math.degrees(self.get_angle_between(other))
 
     def normalized(self) -> 'Vec3':
-        length = self.get_length()
-        if length != 0:
-            return self / length
-        return Vec3(self)
+        if self.x == 0 and self.y == 0 and self.z == 0:
+            return Vec3(self)
+        return self / self.get_length()
 
-    def normalize(self) -> float:
+    def normalize(self):
+        if self.x == 0 and self.y == 0 and self.z == 0:
+            return
         length = self.get_length()
-        if length != 0:
-            self.x /= length
-            self.y /= length
-            self.z /= length
-        return length
+        self.x /= length
+        self.y /= length
+        self.z /= length
 
     def dot(self, other: 'Sequence[float | int] | Vec3') -> float:
         return self.x * other[0] + self.y * other[1] + self.z * other[2]
